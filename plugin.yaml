@@ -1,0 +1,58 @@
+name: app-handler-sns-action-plugin
+description: Plugin que adiciona uma ação baseada em uma regra de disparo de evento.
+types:
+  - app
+inputs:
+  - label: Qual o nome da ação que você deseja adicionar?
+    type: text
+    name: action_name
+    default: action-name
+    required: true
+  - label: Qual o ARN (Amazon Resource Naming) de um tópico sns já existente para que sua lambda se conecte a ele?
+    type: text
+    name: sns_topic_arn
+    default: ''
+    required: false
+  - label: Qual o nome da lambda que será responsável por responder tal ação?
+    type: text
+    name: action_lambda_name
+    default: 'actionLambda'
+    required: true
+  - label: Nome da regra na qual sua ação deve ser desencadeada? (success reagir aos casos de sucesso, e failure para reagir aos casos de falha)
+    type: text
+    name: rule_name
+    items:
+      - 'success'
+      - 'failure'
+    default: 'success'
+    required: true
+
+hooks:
+  - type: edit
+    trigger: after-render
+    path: infra/lib/{{handler_name}}-handler-stack.ts
+    changes:
+      - search:
+          string: "const handlerCore = new stkHandler.StackSpotLambdaHandlerCore(this,"
+          insert-after:
+            snippet: snippets/typescript-add-simple-sns-action.txt
+  - type: run
+    trigger: after-render
+    script: scripts/plugin-update-sources.py
+
+displayName: Sns Simple Action Plugin
+
+category: Backend
+
+compatibility:
+  - NodeJS 14.x
+
+about: about.md
+
+usage: usage.md
+
+useCase: useCase.md
+
+implementation: implementation.md
+
+technologies: [ "Typescript", "AWS SNS" ]
