@@ -12,7 +12,7 @@ inputs:
     type: text
     name: sns_topic_arn
     default: ''
-    required: false
+    required: true
   - label: Qual o nome da lambda que será responsável por responder tal ação?
     type: text
     name: action_lambda_name
@@ -36,9 +36,9 @@ hooks:
           string: "const handlerCore = new stkHandler.StackSpotLambdaHandlerCore(this,"
           insert-after:
             snippet: snippets/typescript-add-simple-sns-action.txt
-  - type: run
-    trigger: after-render
-    script: scripts/plugin-update-sources.py
+  # - type: run
+  #   trigger: after-render
+  #   script: scripts/plugin-update-sources.py
 
 displayName: Sns Simple Action Plugin
 
@@ -46,6 +46,7 @@ category: Backend
 
 compatibility:
   - NodeJS 14.x
+  - STKCLI 3.1.0
 
 about: about.md
 

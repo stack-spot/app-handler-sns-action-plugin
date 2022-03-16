@@ -2,6 +2,7 @@
     const sns{{action_name|title|replace("-", "")|replace("_", "")}}Action = new stkHandler.SnsSimpleAction(this, '{{action_name}}-EventSource', {
       actionBasedRule: handlerCore.{{rule_name}}Rule,
       lambdaName: '{{action_lambda_name}}',
+      snsDestinyTopicARN: '{{snsDestinyTopicARN}}',
     });
     handlerCore.addAction(sns{{action_name|title|replace("-", "")|replace("_", "")}}Action);
   
