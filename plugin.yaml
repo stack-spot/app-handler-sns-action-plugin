@@ -36,9 +36,21 @@ hooks:
           string: "const handlerCore = new stkHandler.StackSpotLambdaHandlerCore(this,"
           insert-after:
             snippet: snippets/typescript-add-simple-sns-action.txt
-  # - type: run
-  #   trigger: after-render
-  #   script: scripts/plugin-update-sources.py
+  - type: edit
+    trigger: after-render
+    path: infra/lib/{{handler_name}}-handler-stack.ts
+    changes:
+      - search:
+          string: "const handlerCore = new stkHandler.StackSpotLambdaHandlerCore(this,"
+          insert-after:
+            snippet: snippets/typescript-add-lambda-eventsource.txt
+  - type: run
+    trigger: after-render
+    commands:
+      - npm run infra:install:handlercore
+      - npm run infra:format:fix
+      - npm run infra:build:cdk
+      - npm run source:setup
 
 displayName: Sns Simple Action Plugin
 
