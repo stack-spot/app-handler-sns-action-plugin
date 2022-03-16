@@ -36,14 +36,6 @@ hooks:
           string: "const handlerCore = new stkHandler.StackSpotLambdaHandlerCore(this,"
           insert-after:
             snippet: snippets/typescript-add-simple-sns-action.txt
-  - type: edit
-    trigger: after-render
-    path: infra/lib/{{handler_name}}-handler-stack.ts
-    changes:
-      - search:
-          string: "const handlerCore = new stkHandler.StackSpotLambdaHandlerCore(this,"
-          insert-after:
-            snippet: snippets/typescript-add-lambda-eventsource.txt
   - type: run
     trigger: after-render
     commands:
